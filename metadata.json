@@ -1,0 +1,6 @@
+{
+  "name": "Ghumna Jaam Travels",
+  "description": "Professional travel and tour booking website for Ghumna Jaam Travels, specializing in premium journeys to Nepal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
