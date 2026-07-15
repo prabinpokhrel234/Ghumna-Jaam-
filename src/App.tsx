@@ -17,6 +17,7 @@ import Gallery from "./components/Gallery";
 import FAQs from "./components/FAQs";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
+import AIChatBox from "./components/AIChatBox";
 
 // Import types
 import { Package } from "./types";
@@ -257,19 +258,8 @@ export default function App() {
             )}
           </AnimatePresence>
 
-          {/* Luxury Floating WhatsApp Support button */}
-          <a
-            href="https://wa.me/9779801234567?text=Namaste!%20I'm%20visiting%20the%20Ghumna%20Jaam%20Travels%20website%20and%20would%20love%20to%20plan%20a%20trek."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="fixed bottom-6 right-6 z-40 bg-emerald-600 hover:bg-emerald-700 text-white p-4 rounded-full shadow-lg hover:shadow-xl hover:shadow-emerald-600/20 transition-all duration-300 transform hover:-translate-y-1 hover:rotate-6 flex items-center justify-center cursor-pointer group"
-            title="Chat with an Expert Guide"
-          >
-            <MessageCircle className="w-6 h-6 fill-white text-emerald-600" />
-            <span className="max-w-0 overflow-hidden group-hover:max-w-[120px] transition-all duration-500 ease-out whitespace-nowrap text-xs font-bold pl-0 group-hover:pl-2">
-              WhatsApp Guide
-            </span>
-          </a>
+          {/* Premium Floating AI Travel Concierge Assistant */}
+          <AIChatBox />
         </>
       )}
 

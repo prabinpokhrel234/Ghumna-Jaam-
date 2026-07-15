@@ -11,84 +11,63 @@ const slides = [
   {
     image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=1920",
     place: "Everest Region",
+    typingText: "Mount Everest Base Camp",
     desc: "Where mountains touch the heavens."
   },
   {
     image: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=1920",
     place: "Pokhara",
+    typingText: "Fewa Lake in Pokhara",
     desc: "The tranquil lake reflecting snowy peaks."
   },
   {
     image: "https://images.unsplash.com/photo-1581888227599-779811939961?auto=format&fit=crop&q=80&w=1920",
     place: "Chitwan Jungle",
+    typingText: "Wild Jungles of Chitwan",
     desc: "Roam wild where the tiger walks."
   },
   {
     image: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=80&w=1920",
     place: "Upper Mustang",
+    typingText: "Walled Kingdoms of Mustang",
     desc: "Ancient secrets in the wind-swept desert."
   },
   {
     image: "https://images.unsplash.com/photo-1596120236172-231999844ade?auto=format&fit=crop&q=80&w=1920",
     place: "Lumbini",
+    typingText: "Spiritual Grounds of Lumbini",
     desc: "The birthplace of peace and enlightenment."
   }
 ];
 
-const typingTexts = [
-  "Mount Everest Base Camp",
-  "Fewa Lake in Pokhara",
-  "Wild Jungles of Chitwan",
-  "Walled Kingdoms of Mustang",
-  "Spiritual Grounds of Lumbini",
-  "Mystic Waters of Rara Lake"
-];
-
 export default function Hero({ onExploreClick, onPlanClick }: HeroProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [textIndex, setTextIndex] = useState(0);
   const [currentText, setCurrentText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [typingSpeed, setTypingSpeed] = useState(100);
+  const [typingSpeed, setTypingSpeed] = useState(80);
 
   // Background Slider AutoPlay
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 6000);
+    }, 6500); // 6.5 seconds per slide to give typing and showing full text ample time
     return () => clearInterval(timer);
   }, []);
 
-  // Typing Text Effect for Nepal Highlights
+  // Reset typing when currentSlide changes
   useEffect(() => {
-    const handleTyping = () => {
-      const fullText = typingTexts[textIndex];
-      if (!isDeleting) {
-        // Typing characters
+    setCurrentText("");
+  }, [currentSlide]);
+
+  // Typing Text Effect synchronized with currentSlide
+  useEffect(() => {
+    const fullText = slides[currentSlide].typingText;
+    if (currentText !== fullText) {
+      const timer = setTimeout(() => {
         setCurrentText(fullText.substring(0, currentText.length + 1));
-        setTypingSpeed(100);
-
-        if (currentText === fullText) {
-          // Pause at end
-          setTypingSpeed(2000);
-          setIsDeleting(true);
-        }
-      } else {
-        // Deleting characters
-        setCurrentText(fullText.substring(0, currentText.length - 1));
-        setTypingSpeed(50);
-
-        if (currentText === "") {
-          setIsDeleting(false);
-          setTextIndex((prev) => (prev + 1) % typingTexts.length);
-          setTypingSpeed(500);
-        }
-      }
-    };
-
-    const timer = setTimeout(handleTyping, typingSpeed);
-    return () => clearTimeout(timer);
-  }, [currentText, isDeleting, textIndex, typingSpeed]);
+      }, typingSpeed);
+      return () => clearTimeout(timer);
+    }
+  }, [currentText, currentSlide, typingSpeed]);
 
   const handleScrollDown = () => {
     const searchSection = document.getElementById("search-bar-section");

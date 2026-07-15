@@ -1,0 +1,69 @@
+{
+  "entities": {
+    "blog": {
+      "title": "Blog",
+      "description": "A blog post about traveling and tours in Nepal.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 150,
+          "description": "The title of the blog post"
+        },
+        "subtitle": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 250,
+          "description": "The subtitle of the blog post"
+        },
+        "content": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 10000,
+          "description": "The body text content of the blog post"
+        },
+        "category": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Category of the blog post (e.g. Trekking, Culture, Food)"
+        },
+        "image": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "The image URL for the blog post banner"
+        },
+        "authorId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "The Firebase Auth UID of the author"
+        },
+        "authorName": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Display name of the author"
+        },
+        "authorEmail": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Email of the author"
+        },
+        "createdAt": {
+          "type": "object",
+          "description": "The timestamp of creation"
+        },
+        "updatedAt": {
+          "type": "object",
+          "description": "The timestamp of last modification"
+        }
+      },
+      "required": ["title", "subtitle", "content", "category", "image", "authorId", "authorName", "authorEmail", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "blogs/{blogId}": {
+      "schema": "blog",
+      "description": "Collection of all blog posts"
+    }
+  }
+}
