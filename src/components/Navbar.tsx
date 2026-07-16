@@ -6,9 +6,10 @@ interface NavbarProps {
   darkMode: boolean;
   setDarkMode: (dark: boolean) => void;
   onBookNowClick: () => void;
+  onNavClick?: (id: string) => void;
 }
 
-export default function Navbar({ darkMode, setDarkMode, onBookNowClick }: NavbarProps) {
+export default function Navbar({ darkMode, setDarkMode, onBookNowClick, onNavClick }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -27,6 +28,10 @@ export default function Navbar({ darkMode, setDarkMode, onBookNowClick }: Navbar
 
   const handleNavClick = (id: string) => {
     setIsMobileMenuOpen(false);
+    if (onNavClick) {
+      onNavClick(id);
+      return;
+    }
     const element = document.getElementById(id);
     if (element) {
       const offset = 80; // height of sticky navbar

@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "motion/react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import SearchBar from "./components/SearchBar";
+import LayoutCustomizer from "./components/LayoutCustomizer";
 import WhyNepal from "./components/WhyNepal";
 import FeaturedPackages from "./components/FeaturedPackages";
 import PackageFinder from "./components/PackageFinder";
@@ -27,6 +28,18 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+
+  // Layout optimization / Declutter states
+  const [layoutPreset, setLayoutPreset] = useState<"explorer" | "quick-book" | "media" | "custom">("explorer");
+  const [visibleSections, setVisibleSections] = useState({
+    whyNepal: true,
+    packageFinder: true,
+    destinations: true,
+    gallery: true,
+    testimonials: true,
+    faqs: true,
+    blog: true,
+  });
 
   // States for cross-component interactions
   const [searchQuery, setSearchQuery] = useState<{ destination: string; date: string; travelers: number; budget: number } | null>(null);
@@ -71,6 +84,86 @@ export default function App() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Preset Layout Manager Action
+  const handlePresetChange = (preset: "explorer" | "quick-book" | "media" | "custom") => {
+    setLayoutPreset(preset);
+    if (preset === "quick-book") {
+      setVisibleSections({
+        whyNepal: false,
+        packageFinder: true,
+        destinations: false,
+        gallery: false,
+        testimonials: false,
+        faqs: false,
+        blog: false,
+      });
+    } else if (preset === "media") {
+      setVisibleSections({
+        whyNepal: false,
+        packageFinder: false,
+        destinations: true,
+        gallery: true,
+        testimonials: true,
+        faqs: false,
+        blog: true,
+      });
+    } else if (preset === "explorer") {
+      setVisibleSections({
+        whyNepal: true,
+        packageFinder: true,
+        destinations: true,
+        gallery: true,
+        testimonials: true,
+        faqs: true,
+        blog: true,
+      });
+    }
+  };
+
+  const handleToggleSection = (section: "whyNepal" | "packageFinder" | "destinations" | "gallery" | "testimonials" | "faqs" | "blog") => {
+    setLayoutPreset("custom");
+    setVisibleSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
+  };
+
+  // Safe navbar action which auto-reveals a section before scrolling to it
+  const handleNavClickWithReveal = (id: string) => {
+    const mapping: Record<string, "whyNepal" | "packageFinder" | "destinations" | "gallery" | "testimonials" | "faqs" | "blog"> = {
+      "why-nepal": "whyNepal",
+      "packages": "packageFinder",
+      "gallery": "gallery",
+      "blog": "blog",
+      "destinations": "destinations",
+      "faqs": "faqs",
+    };
+
+    const sectionKey = mapping[id];
+    if (sectionKey && !visibleSections[sectionKey]) {
+      setVisibleSections((prev) => ({
+        ...prev,
+        [sectionKey]: true,
+      }));
+      setLayoutPreset("custom");
+    }
+
+    // Delayed scroll to allow the component to mount in DOM
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        const offset = 80; // height of sticky navbar
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - offset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    }, 150);
+  };
 
   // Handler: When user searches via the floating search panel
   const handleSearchSubmit = (filters: { destination: string; date: string; travelers: number; budget: number }) => {
@@ -120,10 +213,17 @@ export default function App() {
   };
 
   const handlePlanTrigger = () => {
-    const finderSection = document.getElementById("package-finder");
-    if (finderSection) {
-      finderSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Ensure the package finder is visible
+    if (!visibleSections.packageFinder) {
+      setVisibleSections((prev) => ({ ...prev, packageFinder: true }));
+      setLayoutPreset("custom");
     }
+    setTimeout(() => {
+      const finderSection = document.getElementById("package-finder");
+      if (finderSection) {
+        finderSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 150);
   };
 
   const handleBackToTop = () => {
@@ -185,6 +285,7 @@ export default function App() {
             darkMode={darkMode}
             setDarkMode={setDarkMode}
             onBookNowClick={handleBookingTrigger}
+            onNavClick={handleNavClickWithReveal}
           />
 
           {/* Main sections layout */}
@@ -198,28 +299,41 @@ export default function App() {
             {/* 2. Overlapping Search engine */}
             <SearchBar onSearch={handleSearchSubmit} />
 
-            {/* 3. Why Nepal Section with counters */}
-            <WhyNepal />
+            {/* Layout Customizer declutter panel */}
+            <LayoutCustomizer
+              layoutPreset={layoutPreset}
+              onPresetChange={handlePresetChange}
+              visibleSections={visibleSections}
+              onToggleSection={handleToggleSection}
+              darkMode={darkMode}
+            />
 
-            {/* 4. Curated Packages Grid */}
+            {/* 3. Why Nepal Section with counters */}
+            {visibleSections.whyNepal && <WhyNepal />}
+
+            {/* 4. Curated Packages Grid (Always visible core section) */}
             <FeaturedPackages
               searchQuery={searchQuery}
               onBookPackage={handleSelectPackageForBooking}
             />
 
             {/* 5. Smart interactive finder */}
-            <PackageFinder onSelectPackage={handleSelectPackageForBooking} />
+            {visibleSections.packageFinder && (
+              <PackageFinder onSelectPackage={handleSelectPackageForBooking} />
+            )}
 
             {/* 6. Destination Grid */}
-            <PopularDestinations onSelectDestination={handleDestinationSelect} />
+            {visibleSections.destinations && (
+              <PopularDestinations onSelectDestination={handleDestinationSelect} />
+            )}
 
             {/* 7. Masonry Photo gallery */}
-            <Gallery />
+            {visibleSections.gallery && <Gallery />}
 
             {/* 8. Testimonials carousel */}
-            <Testimonials />
+            {visibleSections.testimonials && <Testimonials />}
 
-            {/* 9. Secure Booking System Form */}
+            {/* 9. Secure Booking System Form (Always visible) */}
             <BookingForm
               selectedPackage={selectedBookingPackage}
               onBookingSuccess={() => {
@@ -228,10 +342,10 @@ export default function App() {
             />
 
             {/* 10. FAQ Center Accordions */}
-            <FAQs />
+            {visibleSections.faqs && <FAQs />}
 
             {/* 11. Blog post slider */}
-            <BlogSection />
+            {visibleSections.blog && <BlogSection />}
 
             {/* 12. Contact Form, Maps and WhatsApp */}
             <ContactSection />
