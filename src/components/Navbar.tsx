@@ -87,14 +87,6 @@ export default function Navbar({ darkMode, setDarkMode, onBookNowClick }: Navbar
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
             <button
-              onClick={() => handleNavClick("hero")}
-              className={`text-sm font-medium hover:text-[#FF9F1C] transition-colors duration-300 ${
-                isScrolled ? darkMode ? "text-gray-200" : "text-gray-700" : "text-white"
-              }`}
-            >
-              Home
-            </button>
-            <button
               onClick={() => handleNavClick("destinations")}
               className={`text-sm font-medium hover:text-[#FF9F1C] transition-colors duration-300 ${
                 isScrolled ? darkMode ? "text-gray-200" : "text-gray-700" : "text-white"
@@ -109,6 +101,14 @@ export default function Navbar({ darkMode, setDarkMode, onBookNowClick }: Navbar
               }`}
             >
               Packages
+            </button>
+            <button
+              onClick={() => handleNavClick("gallery")}
+              className={`text-sm font-medium hover:text-[#FF9F1C] transition-colors duration-300 ${
+                isScrolled ? darkMode ? "text-gray-200" : "text-gray-700" : "text-white"
+              }`}
+            >
+              Gallery
             </button>
             <button
               onClick={() => handleNavClick("why-nepal")}
@@ -149,17 +149,6 @@ export default function Navbar({ darkMode, setDarkMode, onBookNowClick }: Navbar
               aria-label="Toggle dark mode"
             >
               {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
-
-            <button
-              onClick={() => alert("Welcome to Ghumna Jaam Travels Portal! The client portal is a simulation in this preview.")}
-              className={`text-sm font-medium px-4 py-2 rounded-lg transition-colors duration-300 ${
-                isScrolled
-                  ? darkMode ? "text-white hover:bg-white/5" : "text-gray-700 hover:bg-gray-100"
-                  : "text-white hover:bg-white/10"
-              }`}
-            >
-              Login
             </button>
 
             <button
@@ -228,7 +217,7 @@ export default function Navbar({ darkMode, setDarkMode, onBookNowClick }: Navbar
             </div>
 
             <div className="flex flex-col space-y-4">
-              {["hero", "destinations", "packages", "why-nepal", "blog", "contact"].map((item) => (
+              {["destinations", "packages", "gallery", "why-nepal", "blog", "contact"].map((item) => (
                 <button
                   key={item}
                   onClick={() => handleNavClick(item)}
@@ -238,26 +227,13 @@ export default function Navbar({ darkMode, setDarkMode, onBookNowClick }: Navbar
                       : "text-gray-700 border-gray-100 hover:text-[#FF9F1C]"
                   }`}
                 >
-                  {item === "hero" ? "Home" : item === "why-nepal" ? "About" : item}
+                  {item === "why-nepal" ? "About" : item}
                 </button>
               ))}
             </div>
           </div>
 
           <div className="space-y-3">
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                alert("Login portal is simulated.");
-              }}
-              className={`w-full py-2.5 rounded-lg text-sm font-semibold text-center border ${
-                darkMode
-                  ? "text-white border-white/10 hover:bg-white/5"
-                  : "text-gray-700 border-gray-200 hover:bg-gray-50"
-              }`}
-            >
-              Login
-            </button>
             <button
               onClick={() => {
                 setIsMobileMenuOpen(false);
