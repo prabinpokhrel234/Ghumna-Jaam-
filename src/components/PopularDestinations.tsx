@@ -1,4 +1,5 @@
 import { ArrowRight, Globe, MapPin, Users } from "lucide-react";
+import { motion } from "motion/react";
 import { destinations } from "../data";
 
 interface PopularDestinationsProps {
@@ -11,7 +12,13 @@ export default function PopularDestinations({ onSelectDestination }: PopularDest
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-2xl mx-auto mb-16"
+        >
           <span className="text-sm font-bold uppercase tracking-widest text-[#FF9F1C] block mb-2">Unparalleled Wonders</span>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-[#0A2A52] dark:text-white tracking-tight leading-tight mb-4">
             Popular Destinations
@@ -19,15 +26,20 @@ export default function PopularDestinations({ onSelectDestination }: PopularDest
           <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">
             From the high snow-capped Himalayan ridges to the deep tropical wild jungles, explore the absolute best mystical regions of Nepal with our handpicked journeys.
           </p>
-        </div>
+        </motion.div>
 
         {/* Card Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {destinations.map((dest) => (
-            <div
+          {destinations.map((dest, index) => (
+            <motion.div
               key={dest.id}
               onClick={() => onSelectDestination(dest.name)}
-              className="group relative h-[360px] rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer border dark:border-white/5"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.7, delay: index * 0.1, ease: [0.215, 0.61, 0.355, 1] }}
+              whileHover={{ y: -8, transition: { duration: 0.3 } }}
+              className="group relative h-[360px] rounded-2xl overflow-hidden shadow-md hover:shadow-2xl cursor-pointer border dark:border-white/5 bg-gray-900"
             >
               
               {/* Card Image */}
@@ -81,7 +93,7 @@ export default function PopularDestinations({ onSelectDestination }: PopularDest
                 </div>
               </div>
 
-            </div>
+            </motion.div>
           ))}
         </div>
 

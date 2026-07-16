@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Mountain, Compass, Heart, Award, ShieldCheck, Milestone, CheckCircle, Flame, Leaf, Eye } from "lucide-react";
-import { motion, useInView } from "motion/react";
+import { motion, useInView, AnimatePresence } from "motion/react";
 
 interface CounterProps {
   target: number;
@@ -128,32 +128,41 @@ export default function WhyNepal() {
           </div>
 
           {/* Large Tab Display (Right) */}
-          <div className="lg:col-span-7">
-            {topics.map((topic) => {
-              if (topic.id !== selectedTopic) return null;
-              return (
-                <div key={topic.id} className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl h-[350px] sm:h-[450px] group border dark:border-white/5">
-                  <img
-                    src={topic.image}
-                    alt={topic.title}
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent flex flex-col justify-end p-6 sm:p-10" />
-                  <div className="absolute bottom-6 sm:bottom-10 left-6 sm:left-10 right-6 sm:right-10 text-white z-10">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <span className="bg-[#FF9F1C] text-white text-[10px] uppercase font-black px-2.5 py-1 rounded">Unique Experience</span>
+          <div className="lg:col-span-7 h-[350px] sm:h-[450px] relative">
+            <AnimatePresence mode="wait">
+              {topics.map((topic) => {
+                if (topic.id !== selectedTopic) return null;
+                return (
+                  <motion.div
+                    key={topic.id}
+                    initial={{ opacity: 0, x: 20, scale: 0.98 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -20, scale: 0.98 }}
+                    transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
+                    className="absolute inset-0 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl h-full w-full group border dark:border-white/5"
+                  >
+                    <img
+                      src={topic.image}
+                      alt={topic.title}
+                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent flex flex-col justify-end p-6 sm:p-10" />
+                    <div className="absolute bottom-6 sm:bottom-10 left-6 sm:left-10 right-6 sm:right-10 text-white z-10">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <span className="bg-[#FF9F1C] text-white text-[10px] uppercase font-black px-2.5 py-1 rounded">Unique Experience</span>
+                      </div>
+                      <h3 className="text-2xl sm:text-4xl font-extrabold text-white mb-3">{topic.title}</h3>
+                      <p className="text-gray-300 text-sm sm:text-base leading-relaxed mb-4">{topic.desc}</p>
+                      <div className="flex items-center text-[#00B4D8] font-bold text-sm cursor-pointer group/link hover:text-[#00B4D8]/80">
+                        Explore matching packages
+                        <span className="ml-1.5 transition-transform group-hover/link:translate-x-1">→</span>
+                      </div>
                     </div>
-                    <h3 className="text-2xl sm:text-4xl font-extrabold text-white mb-3">{topic.title}</h3>
-                    <p className="text-gray-300 text-sm sm:text-base leading-relaxed mb-4">{topic.desc}</p>
-                    <div className="flex items-center text-[#00B4D8] font-bold text-sm cursor-pointer group/link hover:text-[#00B4D8]/80">
-                      Explore matching packages
-                      <span className="ml-1.5 transition-transform group-hover/link:translate-x-1">→</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
           </div>
 
         </div>

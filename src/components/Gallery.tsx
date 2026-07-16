@@ -114,10 +114,15 @@ export default function Gallery() {
         {/* Masonry Layout Grid using CSS columns */}
         <div className="masonry-grid">
           {galleryImages.map((img, index) => (
-            <div
+            <motion.div
               key={img.id}
               onClick={() => openLightbox(index)}
-              className="masonry-item relative group rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer border dark:border-white/5"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, delay: index * 0.08, ease: "easeOut" }}
+              whileHover={{ scale: 1.02, y: -4, transition: { duration: 0.3 } }}
+              className="masonry-item relative group rounded-2xl overflow-hidden shadow-sm hover:shadow-xl cursor-pointer border dark:border-white/5 bg-gray-100 dark:bg-[#071E3C]"
             >
               <img
                 src={img.url}
@@ -137,7 +142,7 @@ export default function Gallery() {
                   View Fullscreen
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
