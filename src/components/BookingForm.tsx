@@ -188,7 +188,7 @@ export default function BookingForm({ selectedPackage, onBookingSuccess }: Booki
                         placeholder="John Doe"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className={`w-full bg-white dark:bg-white/5 pl-10 pr-4 py-3 rounded-xl border focus:outline-none transition-all text-sm ${
+                        className={`w-full bg-white dark:bg-white/5 text-[#0A2A52] dark:text-white pl-10 pr-4 py-3 rounded-xl border focus:outline-none transition-all text-sm ${
                           errors.name ? "border-red-500" : "border-gray-200 dark:border-white/10 focus:border-[#FF9F1C]"
                         }`}
                       />
@@ -208,7 +208,7 @@ export default function BookingForm({ selectedPackage, onBookingSuccess }: Booki
                         placeholder="john@example.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className={`w-full bg-white dark:bg-white/5 pl-10 pr-4 py-3 rounded-xl border focus:outline-none transition-all text-sm ${
+                        className={`w-full bg-white dark:bg-white/5 text-[#0A2A52] dark:text-white pl-10 pr-4 py-3 rounded-xl border focus:outline-none transition-all text-sm ${
                           errors.email ? "border-red-500" : "border-gray-200 dark:border-white/10 focus:border-[#FF9F1C]"
                         }`}
                       />
@@ -228,7 +228,7 @@ export default function BookingForm({ selectedPackage, onBookingSuccess }: Booki
                         placeholder="+977-9800000000"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        className={`w-full bg-white dark:bg-white/5 pl-10 pr-4 py-3 rounded-xl border focus:outline-none transition-all text-sm ${
+                        className={`w-full bg-white dark:bg-white/5 text-[#0A2A52] dark:text-white pl-10 pr-4 py-3 rounded-xl border focus:outline-none transition-all text-sm ${
                           errors.phone ? "border-red-500" : "border-gray-200 dark:border-white/10 focus:border-[#FF9F1C]"
                         }`}
                       />
@@ -247,7 +247,7 @@ export default function BookingForm({ selectedPackage, onBookingSuccess }: Booki
                         type="date"
                         value={travelDate}
                         onChange={(e) => setTravelDate(e.target.value)}
-                        className={`w-full bg-white dark:bg-white/5 px-4 py-3 rounded-xl border focus:outline-none transition-all text-sm [color-scheme:light] ${
+                        className={`w-full bg-white dark:bg-[#071E3C] text-[#0A2A52] dark:text-white px-4 py-3 rounded-xl border focus:outline-none transition-all text-sm [color-scheme:light] dark:[color-scheme:dark] ${
                           errors.travelDate ? "border-red-500" : "border-gray-200 dark:border-white/10 focus:border-[#FF9F1C]"
                         }`}
                       />
@@ -324,7 +324,7 @@ export default function BookingForm({ selectedPackage, onBookingSuccess }: Booki
                     placeholder="E.g., Vegetarian diet, oxygen tank request, twin bed configuration..."
                     value={specialRequests}
                     onChange={(e) => setSpecialRequests(e.target.value)}
-                    className="w-full bg-white dark:bg-white/5 px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 focus:border-[#FF9F1C] focus:outline-none transition-all text-sm"
+                    className="w-full bg-white dark:bg-white/5 px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 focus:border-[#FF9F1C] focus:outline-none transition-all text-sm text-[#0A2A52] dark:text-white"
                   />
                 </div>
 
