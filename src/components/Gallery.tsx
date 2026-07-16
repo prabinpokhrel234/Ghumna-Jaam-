@@ -62,6 +62,9 @@ const galleryImages: GalleryItem[] = [
 
 export default function Gallery() {
   const [selectedImageIdx, setSelectedImageIdx] = useState<number | null>(null);
+  const [showAll, setShowAll] = useState(false);
+
+  const displayedImages = showAll ? galleryImages : galleryImages.slice(0, 4);
 
   const openLightbox = (index: number) => {
     setSelectedImageIdx(index);
@@ -113,37 +116,59 @@ export default function Gallery() {
 
         {/* Masonry Layout Grid using CSS columns */}
         <div className="masonry-grid">
-          {galleryImages.map((img, index) => (
-            <motion.div
-              key={img.id}
-              onClick={() => openLightbox(index)}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: index * 0.08, ease: "easeOut" }}
-              whileHover={{ scale: 1.02, y: -4, transition: { duration: 0.3 } }}
-              className="masonry-item relative group rounded-2xl overflow-hidden shadow-sm hover:shadow-xl cursor-pointer border dark:border-white/5 bg-gray-100 dark:bg-[#071E3C]"
-            >
-              <img
-                src={img.url}
-                alt={img.title}
-                className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
-                loading="lazy"
-                referrerPolicy="no-referrer"
-              />
-              {/* Fade Overlays */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-5" />
-              
-              <div className="absolute bottom-4 left-4 right-4 text-white z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 duration-500">
-                <span className="text-[#FF9F1C] text-[9px] font-black uppercase tracking-widest block">{img.location}</span>
-                <h4 className="text-sm font-bold line-clamp-1">{img.title}</h4>
-                <div className="flex items-center text-[10px] text-[#00B4D8] font-bold uppercase mt-1.5">
-                  <Maximize2 className="w-3 h-3 mr-1" />
-                  View Fullscreen
+          {displayedImages.map((img) => {
+            const actualIndex = galleryImages.findIndex((g) => g.id === img.id);
+            return (
+              <motion.div
+                key={img.id}
+                onClick={() => openLightbox(actualIndex)}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                whileHover={{ scale: 1.02, y: -4, transition: { duration: 0.3 } }}
+                className="masonry-item relative group rounded-2xl overflow-hidden shadow-sm hover:shadow-xl cursor-pointer border dark:border-white/5 bg-gray-100 dark:bg-[#071E3C]"
+              >
+                <img
+                  src={img.url}
+                  alt={img.title}
+                  className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                />
+                {/* Fade Overlays */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-5" />
+                
+                <div className="absolute bottom-4 left-4 right-4 text-white z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0 duration-500">
+                  <span className="text-[#FF9F1C] text-[9px] font-black uppercase tracking-widest block">{img.location}</span>
+                  <h4 className="text-sm font-bold line-clamp-1">{img.title}</h4>
+                  <div className="flex items-center text-[10px] text-[#00B4D8] font-bold uppercase mt-1.5">
+                    <Maximize2 className="w-3 h-3 mr-1" />
+                    View Fullscreen
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Optimizing Loading: See More Options Button */}
+        <div className="flex justify-center mt-12">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setShowAll(!showAll)}
+            className="flex items-center space-x-2 bg-gradient-to-r from-[#0A2A52] to-[#00B4D8] dark:from-[#00B4D8] dark:to-[#0A2A52] hover:opacity-90 text-white font-extrabold text-sm px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+          >
+            <span>{showAll ? "Collapse Gallery View" : "Explore More Memories (See More)"}</span>
+            <motion.span
+              animate={{ rotate: showAll ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+              className="inline-block"
+            >
+              ↓
+            </motion.span>
+          </motion.button>
         </div>
 
       </div>
