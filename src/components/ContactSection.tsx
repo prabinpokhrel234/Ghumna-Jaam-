@@ -153,7 +153,7 @@ export default function ContactSection() {
                       placeholder="Jane Smith"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full bg-white dark:bg-white/5 text-[#0A2A52] dark:text-white px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 focus:border-[#FF9F1C] focus:outline-none transition-all text-sm"
+                      className="w-full bg-white dark:bg-white/5 px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 focus:border-[#FF9F1C] focus:outline-none transition-all text-sm"
                     />
                   </div>
                   <div className="space-y-1">
@@ -163,7 +163,7 @@ export default function ContactSection() {
                       placeholder="jane@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-white dark:bg-white/5 text-[#0A2A52] dark:text-white px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 focus:border-[#FF9F1C] focus:outline-none transition-all text-sm"
+                      className="w-full bg-white dark:bg-white/5 px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 focus:border-[#FF9F1C] focus:outline-none transition-all text-sm"
                     />
                   </div>
                 </div>
@@ -175,7 +175,7 @@ export default function ContactSection() {
                     placeholder="E.g., Group luxury booking inquiry, Upper Mustang query..."
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    className="w-full bg-white dark:bg-white/5 text-[#0A2A52] dark:text-white px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 focus:border-[#FF9F1C] focus:outline-none transition-all text-sm"
+                    className="w-full bg-white dark:bg-white/5 px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 focus:border-[#FF9F1C] focus:outline-none transition-all text-sm"
                   />
                 </div>
 
@@ -186,7 +186,7 @@ export default function ContactSection() {
                     placeholder="Share your dream travel plan details with our coordinator..."
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="w-full bg-white dark:bg-white/5 text-[#0A2A52] dark:text-white px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 focus:border-[#FF9F1C] focus:outline-none transition-all text-sm"
+                    className="w-full bg-white dark:bg-white/5 px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 focus:border-[#FF9F1C] focus:outline-none transition-all text-sm"
                   />
                 </div>
 
